@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generate Spark-X PWA Icons</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 20px;
+            background: linear-gradient(135deg, #2563eb 0%, #8b5cf6 50%, #f59e0b 100%);
+            min-height: 100vh;
+            color: white;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 30px;
+            backdrop-filter: blur(10px);
+        }
+        .generate-btn {
+            background: #f59e0b;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 18px;
+            margin: 20px;
+        }
+        .generate-btn:hover {
+            background: #d97706;
+        }
+        .status {
+            margin: 20px 0;
+            padding: 10px;
+            border-radius: 5px;
+            background: rgba(255, 255, 255, 0.1);
+        }
+        .download-links {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 10px;
+            margin: 20px 0;
+        }
+        .download-link {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 10px;
+            border-radius: 5px;
+            text-decoration: none;
+            color: white;
+            display: block;
+        }
+        .download-link:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎨 Spark-X PWA Icon Generator</h1>
+        <p>Generate real PNG icons for your Spark-X Platforms PWA</p>
+        
+        <button class="generate-btn" onclick="generateAllIcons()">
+            Generate All Icons
+        </button>
+        
+        <div id="status" class="status" style="display: none;"></div>
+        
+        <div id="downloadLinks" class="download-links"></div>
+        
+        <canvas id="iconCanvas" style="display: none;"></canvas>
+    </div>
+
+    <script>
+        const iconSizes = [72, 96, 128, 144, 152, 192, 384, 512];
+        
+        function generateIcon(size) {
+            const canvas = document.getElementById('iconCanvas');
+            const ctx = canvas.getContext('2d');
+            
+            canvas.width = size;
+            canvas.height = size;
+            
+            // Create gradient background
+            const gradient = ctx.createLinearGradient(0, 0, size, size);
+            gradient.addColorStop(0, '#2563eb');
+            gradient.addColorStop(0.5, '#8b5cf6');
+            gradient.addColorStop(1, '#f59e0b');
+            
+            // Fill background
+            ctx.fillStyle = gradient;
+            ctx.fillRect(0, 0, size, size);
+            
+            // Add border
+            ctx.strokeStyle = 'rgba(255, 255, 255, 0.3)';
+            ctx.lineWidth = Math.max(1, size / 64);
+            ctx.strokeRect(0, 0, size, size);
+            
+            // Add "SX" text for Spark-X
+            ctx.fillStyle = 'white';
+            ctx.font = `bold ${Math.floor(size/3)}px Arial`;
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            ctx.fillText('SX', size/2, size/2);
+            
+            // Add smaller text below
+            ctx.font = `${Math.floor(size/12)}px Arial`;
+            ctx.fillText('PLATFORMS', size/2, size/2 + size/4);
+            
+            return canvas.toDataURL('image/png');
+        }
+        
+        function downloadIcon(dataUrl, filename) {
+            const link = document.createElement('a');
+            link.download = filename;
+            link.href = dataUrl;
+            link.click();
+        }
+        
+        function generateAllIcons() {
+            const statusDiv = document.getElementById('status');
+            const linksDiv = document.getElementById('downloadLinks');
+            
+            statusDiv.style.display = 'block';
+            statusDiv.innerHTML = '🔄 Generating icons...';
+            linksDiv.innerHTML = '';
+            
+            let generated = 0;
+            
+            iconSizes.forEach((size, index) => {
+                setTimeout(() => {
+                    const filename = `icon-${size}x${size}.png`;
+                    const dataUrl = generateIcon(size);
+                    
+                    // Create download link
+                    const linkElement = document.createElement('a');
+                    linkElement.href = dataUrl;
+                    linkElement.download = filename;
+                    linkElement.className = 'download-link';
+                    linkElement.innerHTML = `📥 ${filename} (${size}x${size})`;
+                    linkElement.onclick = () => downloadIcon(dataUrl, filename);
+                    
+                    linksDiv.appendChild(linkElement);
+                    
+                    generated++;
+                    statusDiv.innerHTML = `✅ Generated ${generated}/${iconSizes.length} icons`;
+                    
+                    if (generated === iconSizes.length) {
+                        statusDiv.innerHTML = `
+                            <h3>🎉 All icons generated successfully!</h3>
+                            <p>Click each link above to download the icons</p>
+                            <p><strong>Instructions:</strong></p>
+                            <ol style="text-align: left; max-width: 400px; margin: 0 auto;">
+                                <li>Download all icon files</li>
+                                <li>Save them to your <code>icons/</code> folder</li>
+                                <li>Replace the existing placeholder files</li>
+                                <li>Test your PWA install prompt</li>
+                            </ol>
+                        `;
+                    }
+                }, index * 200); // Stagger generation
+            });
+        }
+        
+        // Auto-generate on load
+        window.onload = () => {
+            setTimeout(generateAllIcons, 1000);
+        };
+    </script>
+</body>
+</html>

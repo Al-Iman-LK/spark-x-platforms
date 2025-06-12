@@ -1,9 +1,14 @@
 // Service Worker Registration for Spark-X Platforms PWA
 
+// PWA Install Prompt Variables
+let deferredPrompt;
+let installButton;
+
 // Check if service workers are supported
 if ('serviceWorker' in navigator) {
     window.addEventListener('load', function() {
         registerServiceWorker();
+        setupInstallPrompt();
     });
 }
 
@@ -13,12 +18,12 @@ async function registerServiceWorker() {
             scope: '/'
         });
         
-        console.log('ServiceWorker registration successful with scope: ', registration.scope);
+        console.log('✅ ServiceWorker registration successful with scope: ', registration.scope);
         
         // Handle updates
         registration.addEventListener('updatefound', () => {
             const newWorker = registration.installing;
-            console.log('New service worker found, installing...');
+            console.log('🔄 New service worker found, installing...');
             
             newWorker.addEventListener('statechange', () => {
                 if (newWorker.state === 'installed') {
@@ -27,7 +32,7 @@ async function registerServiceWorker() {
                         showUpdateNotification();
                     } else {
                         // Content is cached for offline use
-                        console.log('Content is cached for offline use.');
+                        console.log('📱 Content is cached for offline use.');
                         showOfflineReadyNotification();
                     }
                 }
@@ -35,83 +40,251 @@ async function registerServiceWorker() {
         });
         
     } catch (error) {
-        console.log('ServiceWorker registration failed: ', error);
+        console.log('❌ ServiceWorker registration failed: ', error);
     }
 }
 
-// Show update notification
-function showUpdateNotification() {
-    if (window.SparkX && window.SparkX.showNotification) {
-        const notification = document.createElement('div');
-        notification.className = 'update-notification';
-        notification.innerHTML = `
-            <div class="update-content">
-                <i class="fas fa-download"></i>
-                <span>New version available!</span>
-                <button class="update-btn" onclick="updateApp()">Update</button>
-                <button class="dismiss-btn" onclick="dismissUpdate()">&times;</button>
-            </div>
+// Setup PWA Install Prompt
+function setupInstallPrompt() {
+    // Listen for the beforeinstallprompt event
+    window.addEventListener('beforeinstallprompt', (e) => {
+        console.log('🎯 Install prompt event triggered');
+        
+        // Prevent the mini-infobar from appearing on mobile
+        e.preventDefault();
+        
+        // Save the event so it can be triggered later
+        deferredPrompt = e;
+        
+        // Show install button
+        showInstallButton();
+    });
+    
+    // Listen for successful installation
+    window.addEventListener('appinstalled', (e) => {
+        console.log('🎉 PWA was installed successfully');
+        hideInstallButton();
+        
+        // Track installation (optional analytics)
+        if (typeof gtag !== 'undefined') {
+            gtag('event', 'pwa_install', {
+                'method': 'prompt'
+            });
+        }
+        
+        // Show success message
+        showInstallSuccessMessage();
+    });
+    
+    // Check if app is already installed
+    if (window.matchMedia && window.matchMedia('(display-mode: standalone)').matches) {
+        console.log('📱 App is running in standalone mode (already installed)');
+    }
+}
+
+// Install Button Management
+function showInstallButton() {
+    // Create install button if it doesn't exist
+    if (!installButton) {
+        installButton = document.createElement('button');
+        installButton.id = 'install-pwa-btn';
+        installButton.className = 'install-btn';
+        installButton.innerHTML = `
+            <i class="fas fa-download"></i>
+            <span>Install App</span>
+        `;
+        installButton.addEventListener('click', installPWA);
+        
+        // Add CSS styles
+        installButton.style.cssText = `
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: linear-gradient(135deg, #2563eb, #8b5cf6);
+            color: white;
+            border: none;
+            padding: 15px 20px;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 4px 20px rgba(37, 99, 235, 0.3);
+            z-index: 1000;
+            font-size: 14px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            opacity: 0;
+            transform: scale(0.8);
+            animation: fadeInScale 0.3s ease forwards;
         `;
         
-        // Add styles
-        if (!document.querySelector('#update-notification-styles')) {
+        // Add animation keyframes
+        if (!document.querySelector('#install-button-styles')) {
             const style = document.createElement('style');
-            style.id = 'update-notification-styles';
+            style.id = 'install-button-styles';
             style.textContent = `
-                .update-notification {
-                    position: fixed;
-                    bottom: 20px;
-                    left: 50%;
-                    transform: translateX(-50%);
-                    background: var(--primary-blue);
-                    color: white;
-                    border-radius: var(--radius-lg);
-                    box-shadow: var(--shadow-xl);
-                    z-index: 10001;
-                    animation: slideInUp 0.3s ease-out;
+                @keyframes fadeInScale {
+                    to {
+                        opacity: 1;
+                        transform: scale(1);
+                    }
                 }
-                .update-content {
-                    display: flex;
-                    align-items: center;
-                    padding: 1rem 1.5rem;
-                    gap: 1rem;
-                }
-                .update-btn {
-                    background: var(--accent-orange);
-                    color: white;
-                    border: none;
-                    padding: 0.5rem 1rem;
-                    border-radius: var(--radius-sm);
-                    cursor: pointer;
-                    font-weight: 600;
-                }
-                .dismiss-btn {
-                    background: none;
-                    border: none;
-                    color: white;
-                    font-size: 1.5rem;
-                    cursor: pointer;
-                    padding: 0;
-                    width: 24px;
-                    height: 24px;
-                }
-                @keyframes slideInUp {
-                    from { transform: translateX(-50%) translateY(100%); opacity: 0; }
-                    to { transform: translateX(-50%) translateY(0); opacity: 1; }
+                #install-pwa-btn:hover {
+                    transform: scale(1.05);
+                    box-shadow: 0 6px 25px rgba(37, 99, 235, 0.4);
                 }
             `;
             document.head.appendChild(style);
         }
         
-        document.body.appendChild(notification);
+        document.body.appendChild(installButton);
     }
+    
+    installButton.style.display = 'flex';
+    console.log('📲 Install button shown');
+}
+
+function hideInstallButton() {
+    if (installButton) {
+        installButton.style.display = 'none';
+        console.log('🔒 Install button hidden');
+    }
+}
+
+// Install PWA Function
+async function installPWA() {
+    if (!deferredPrompt) {
+        console.log('⚠️ Install prompt not available');
+        return;
+    }
+    
+    try {
+        // Show the install prompt
+        deferredPrompt.prompt();
+        
+        // Wait for the user to respond to the prompt
+        const { outcome } = await deferredPrompt.userChoice;
+        
+        console.log(`🎯 User response to install prompt: ${outcome}`);
+        
+        // Track user choice (optional analytics)
+        if (typeof gtag !== 'undefined') {
+            gtag('event', 'pwa_install_prompt', {
+                'result': outcome
+            });
+        }
+        
+        // Clear the deferred prompt
+        deferredPrompt = null;
+        
+        if (outcome === 'accepted') {
+            hideInstallButton();
+        }
+        
+    } catch (error) {
+        console.error('❌ Error during PWA installation:', error);
+    }
+}
+
+// Success Message
+function showInstallSuccessMessage() {
+    const message = document.createElement('div');
+    message.className = 'install-success-message';
+    message.innerHTML = `
+        <div class="success-content">
+            <i class="fas fa-check-circle" style="font-size: 2rem; color: #22c55e; margin-bottom: 10px;"></i>
+            <h3 style="margin: 0 0 10px 0; color: white;">🎉 App Installed Successfully!</h3>
+            <p style="margin: 0; color: rgba(255,255,255,0.9);">Spark-X Platforms is now available on your device</p>
+        </div>
+    `;
+    message.style.cssText = `
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background: rgba(34, 197, 94, 0.95);
+        color: white;
+        padding: 30px;
+        border-radius: 15px;
+        text-align: center;
+        z-index: 2000;
+        backdrop-filter: blur(10px);
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+        opacity: 0;
+        animation: fadeInSuccess 0.5s ease forwards;
+    `;
+    
+    // Add success animation
+    if (!document.querySelector('#success-animation-styles')) {
+        const style = document.createElement('style');
+        style.id = 'success-animation-styles';
+        style.textContent = `
+            @keyframes fadeInSuccess {
+                0% {
+                    opacity: 0;
+                    transform: translate(-50%, -50%) scale(0.8);
+                }
+                100% {
+                    opacity: 1;
+                    transform: translate(-50%, -50%) scale(1);
+                }
+            }
+        `;
+        document.head.appendChild(style);
+    }
+    
+    document.body.appendChild(message);
+    
+    // Remove message after 3 seconds
+    setTimeout(() => {
+        if (message.parentNode) {
+            message.style.animation = 'fadeInSuccess 0.3s ease reverse';
+            setTimeout(() => {
+                if (message.parentNode) {
+                    message.parentNode.removeChild(message);
+                }
+            }, 300);
+        }
+    }, 3000);
+}
+
+// Show update notification
+function showUpdateNotification() {
+    const notification = document.createElement('div');
+    notification.className = 'update-notification';
+    notification.innerHTML = `
+        <div class="update-content">
+            <i class="fas fa-download"></i>
+            <span>New version available!</span>
+            <button class="update-btn" onclick="updateApp()">Update</button>
+            <button class="dismiss-btn" onclick="dismissUpdate()">&times;</button>
+        </div>
+    `;
+    
+    notification.style.cssText = `
+        position: fixed;
+        bottom: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        background: #2563eb;
+        color: white;
+        border-radius: 10px;
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+        z-index: 10001;
+        animation: slideInUp 0.3s ease-out;
+        display: flex;
+        align-items: center;
+        padding: 1rem 1.5rem;
+        gap: 1rem;
+    `;
+    
+    document.body.appendChild(notification);
 }
 
 // Show offline ready notification
 function showOfflineReadyNotification() {
-    if (window.SparkX && window.SparkX.showNotification) {
-        window.SparkX.showNotification('App is ready for offline use!', 'success');
-    }
+    console.log('📱 App is ready for offline use!');
 }
 
 // Update app
@@ -148,168 +321,16 @@ setInterval(() => {
 function updateOnlineStatus() {
     const status = navigator.onLine ? 'online' : 'offline';
     console.log('Connection status:', status);
-    
-    if (window.SparkX && window.SparkX.showNotification) {
-        if (navigator.onLine) {
-            window.SparkX.showNotification('Back online!', 'success');
-        } else {
-            window.SparkX.showNotification('You are offline. Some features may be limited.', 'warning');
-        }
-    }
 }
 
 window.addEventListener('online', updateOnlineStatus);
 window.addEventListener('offline', updateOnlineStatus);
 
-// PWA Install Prompt
-let deferredPrompt;
-
-window.addEventListener('beforeinstallprompt', (e) => {
-    console.log('PWA install prompt triggered');
-    // Prevent Chrome 67 and earlier from automatically showing the prompt
-    e.preventDefault();
-    // Stash the event so it can be triggered later
-    deferredPrompt = e;
-    
-    // Show custom install button
-    showInstallPrompt();
-});
-
-function showInstallPrompt() {
-    // Create install prompt
-    const installPrompt = document.createElement('div');
-    installPrompt.className = 'install-prompt';
-    installPrompt.innerHTML = `
-        <div class="install-content">
-            <i class="fas fa-mobile-alt"></i>
-            <div class="install-text">
-                <h4>Install Spark-X Platforms</h4>
-                <p>Get the full app experience!</p>
-            </div>
-            <button class="install-btn" onclick="installPWA()">Install</button>
-            <button class="install-dismiss" onclick="dismissInstall()">&times;</button>
-        </div>
-    `;
-    
-    // Add styles
-    if (!document.querySelector('#install-prompt-styles')) {
-        const style = document.createElement('style');
-        style.id = 'install-prompt-styles';
-        style.textContent = `
-            .install-prompt {
-                position: fixed;
-                top: 100px;
-                left: 50%;
-                transform: translateX(-50%);
-                background: white;
-                border-radius: var(--radius-lg);
-                box-shadow: var(--shadow-xl);
-                z-index: 10002;
-                animation: slideInDown 0.3s ease-out;
-                border: 2px solid var(--accent-orange);
-            }
-            .install-content {
-                display: flex;
-                align-items: center;
-                padding: 1.5rem;
-                gap: 1rem;
-            }
-            .install-content i {
-                font-size: 2rem;
-                color: var(--accent-orange);
-            }
-            .install-text h4 {
-                margin: 0 0 0.25rem 0;
-                color: var(--gray-800);
-            }
-            .install-text p {
-                margin: 0;
-                color: var(--gray-600);
-                font-size: 0.9rem;
-            }
-            .install-btn {
-                background: var(--accent-orange);
-                color: white;
-                border: none;
-                padding: 0.75rem 1.5rem;
-                border-radius: var(--radius-md);
-                cursor: pointer;
-                font-weight: 600;
-                margin-left: auto;
-            }
-            .install-dismiss {
-                background: none;
-                border: none;
-                color: var(--gray-500);
-                font-size: 1.5rem;
-                cursor: pointer;
-                padding: 0;
-                width: 24px;
-                height: 24px;
-            }
-            @keyframes slideInDown {
-                from { transform: translateX(-50%) translateY(-100%); opacity: 0; }
-                to { transform: translateX(-50%) translateY(0); opacity: 1; }
-            }
-        `;
-        document.head.appendChild(style);
-    }
-    
-    document.body.appendChild(installPrompt);
-    
-    // Auto-dismiss after 10 seconds
-    setTimeout(() => {
-        if (installPrompt.parentNode) {
-            installPrompt.remove();
-        }
-    }, 10000);
-}
-
-// Install PWA
-async function installPWA() {
+// Manual install trigger for testing
+window.triggerInstall = function() {
     if (deferredPrompt) {
-        // Show the install prompt
-        deferredPrompt.prompt();
-        
-        // Wait for the user to respond to the prompt
-        const { outcome } = await deferredPrompt.userChoice;
-        console.log(`User response to the install prompt: ${outcome}`);
-        
-        // Clear the deferredPrompt
-        deferredPrompt = null;
-        
-        // Remove install prompt
-        const installPrompt = document.querySelector('.install-prompt');
-        if (installPrompt) {
-            installPrompt.remove();
-        }
-        
-        if (outcome === 'accepted' && window.SparkX && window.SparkX.showNotification) {
-            window.SparkX.showNotification('Thanks for installing Spark-X Platforms!', 'success');
-        }
+        installPWA();
+    } else {
+        console.log('⚠️ Install prompt not available. Try refreshing the page.');
     }
-}
-
-// Dismiss install prompt
-function dismissInstall() {
-    const installPrompt = document.querySelector('.install-prompt');
-    if (installPrompt) {
-        installPrompt.remove();
-    }
-}
-
-// Handle app installed
-window.addEventListener('appinstalled', (evt) => {
-    console.log('Spark-X Platforms was installed');
-    if (window.SparkX && window.SparkX.showNotification) {
-        window.SparkX.showNotification('App installed successfully!', 'success');
-    }
-});
-
-// Export for global access
-window.PWAManager = {
-    updateApp,
-    dismissUpdate,
-    installPWA,
-    dismissInstall
 };

@@ -2,168 +2,75 @@
   "name": "Spark-X Platforms",
   "short_name": "Spark-X",
   "description": "Your all-in-one platform for online shopping, career opportunities, charitable giving, and social services",
-  "version": "1.0.0",
-  "start_url": "/",
-  "scope": "/",
+  "start_url": "./",
+  "scope": "./",
   "display": "standalone",
   "orientation": "portrait-primary",
   "theme_color": "#2563eb",
   "background_color": "#f9fafb",
-  "lang": "en",
+  "categories": ["business", "shopping", "social", "productivity"],
+  "lang": "en-US",
   "dir": "ltr",
-  
   "icons": [
     {
-      "src": "icons/icon-72x72.png",
+      "src": "./icons/icon-72x72.png",
       "sizes": "72x72",
       "type": "image/png",
-      "purpose": "any maskable"
+      "purpose": "any"
     },
     {
-      "src": "icons/icon-96x96.png",
+      "src": "./icons/icon-96x96.png",
       "sizes": "96x96",
       "type": "image/png",
-      "purpose": "any maskable"
+      "purpose": "any"
     },
     {
-      "src": "icons/icon-128x128.png",
+      "src": "./icons/icon-128x128.png",
       "sizes": "128x128",
       "type": "image/png",
-      "purpose": "any maskable"
+      "purpose": "any"
     },
     {
-      "src": "icons/icon-144x144.png",
+      "src": "./icons/icon-144x144.png",
       "sizes": "144x144",
       "type": "image/png",
-      "purpose": "any maskable"
+      "purpose": "any"
     },
     {
-      "src": "icons/icon-152x152.png",
+      "src": "./icons/icon-152x152.png",
       "sizes": "152x152",
       "type": "image/png",
-      "purpose": "any maskable"
+      "purpose": "any"
     },
     {
-      "src": "icons/icon-192x192.png",
+      "src": "./icons/icon-192x192.png",
       "sizes": "192x192",
       "type": "image/png",
-      "purpose": "any maskable"
+      "purpose": "any"
     },
     {
-      "src": "icons/icon-384x384.png",
+      "src": "./icons/icon-384x384.png",
       "sizes": "384x384",
       "type": "image/png",
-      "purpose": "any maskable"
+      "purpose": "any"
     },
     {
-      "src": "icons/icon-512x512.png",
+      "src": "./icons/icon-512x512.png",
       "sizes": "512x512",
       "type": "image/png",
-      "purpose": "any maskable"
-    }
-  ],
-  
-  "categories": [
-    "business",
-    "productivity",
-    "social",
-    "shopping"
-  ],
-  
-  "shortcuts": [
-    {
-      "name": "Spark-Online",
-      "short_name": "Shop",
-      "description": "Browse and shop online",
-      "url": "/#online",
-      "icons": [
-        {
-          "src": "icons/shortcut-online.png",
-          "sizes": "96x96",
-          "type": "image/png"
-        }
-      ]
+      "purpose": "any"
     },
     {
-      "name": "Spark-Jobs",
-      "short_name": "Jobs",
-      "description": "Find career opportunities",
-      "url": "/#jobs",
-      "icons": [
-        {
-          "src": "icons/shortcut-jobs.png",
-          "sizes": "96x96",
-          "type": "image/png"
-        }
-      ]
-    },
-    {
-      "name": "Spark-Donors",
-      "short_name": "Donate",
-      "description": "Support charitable causes",
-      "url": "/#donors",
-      "icons": [
-        {
-          "src": "icons/shortcut-donors.png",
-          "sizes": "96x96",
-          "type": "image/png"
-        }
-      ]
-    },
-    {
-      "name": "Spark-Wings",
-      "short_name": "Community",
-      "description": "Connect with social services",
-      "url": "/#wings",
-      "icons": [
-        {
-          "src": "icons/shortcut-wings.png",
-          "sizes": "96x96",
-          "type": "image/png"
-        }
-      ]
-    }
-  ],
-  
-  "screenshots": [
-    {
-      "src": "screenshots/desktop-home.png",
-      "sizes": "1280x720",
+      "src": "./icons/icon-192x192.png",
+      "sizes": "192x192",
       "type": "image/png",
-      "form_factor": "wide",
-      "label": "Spark-X Platforms home screen on desktop"
+      "purpose": "maskable"
     },
     {
-      "src": "screenshots/mobile-platforms.png",
-      "sizes": "640x1136",
+      "src": "./icons/icon-512x512.png",
+      "sizes": "512x512",
       "type": "image/png",
-      "form_factor": "narrow",
-      "label": "Platform selection on mobile"
+      "purpose": "maskable"
     }
-  ],
-  
-  "features": [
-    "Cross Platform",
-    "Background Sync",
-    "Offline Support",
-    "Push Notifications"
-  ],
-  
-  "prefer_related_applications": false,
-  "related_applications": [],
-  
-  "protocol_handlers": [
-    {
-      "protocol": "web+sparkx",
-      "url": "/#%s"
-    }
-  ],
-  
-  "edge_side_panel": {
-    "preferred_width": 400
-  },
-  
-  "launch_handler": {
-    "client_mode": "focus-existing"
-  }
+  ]
 }
