@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PWA Test Suite - Spark-X Platforms</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #2563eb 0%, #8b5cf6 50%, #f59e0b 100%);
+            min-height: 100vh;
+            color: white;
+        }
+        .test-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 30px;
+            backdrop-filter: blur(10px);
+        }
+        .test-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .test-section {
+            margin: 20px 0;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            border-left: 4px solid #f59e0b;
+        }
+        .test-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 10px 0;
+            padding: 10px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 5px;
+        }
+        .status {
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+        .status.pass { background: #10b981; color: white; }
+        .status.fail { background: #ef4444; color: white; }
+        .status.warning { background: #f59e0b; color: white; }
+        .status.info { background: #2563eb; color: white; }
+        .test-button {
+            background: #f59e0b;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        .test-button:hover {
+            background: #d97706;
+        }
+        .log {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 15px;
+            border-radius: 5px;
+            margin: 10px 0;
+            font-family: monospace;
+            font-size: 12px;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <div class="test-header">
+            <h1>🧪 Spark-X Platforms PWA Test Suite</h1>
+            <p>Verify that your Progressive Web App is working correctly</p>
+        </div>
+
+        <div class="test-section">
+            <h3>🏗️ Basic Infrastructure</h3>
+            <div class="test-item">
+                <span>Service Worker Support</span>
+                <span class="status" id="sw-support">Checking...</span>
+            </div>
+            <div class="test-item">
+                <span>Service Worker Registration</span>
+                <span class="status" id="sw-registration">Checking...</span>
+            </div>
+            <div class="test-item">
+                <span>Manifest File</span>
+                <span class="status" id="manifest-check">Checking...</span>
+            </div>
+            <div class="test-item">
+                <span>HTTPS/Localhost</span>
+                <span class="status" id="https-check">Checking...</span>
+            </div>
+        </div>
+
+        <div class="test-section">
+            <h3>📱 PWA Features</h3>
+            <div class="test-item">
+                <span>Installable</span>
+                <span class="status" id="installable">Checking...</span>
+            </div>
+            <div class="test-item">
+                <span>Offline Support</span>
+                <span class="status" id="offline-support">Not tested</span>
+            </div>
+            <div class="test-item">
+                <span>Background Sync Support</span>
+                <span class="status" id="bg-sync">Checking...</span>
+            </div>
+            <div class="test-item">
+                <span>Push Notifications Support</span>
+                <span class="status" id="push-support">Checking...</span>
+            </div>
+        </div>
+
+        <div class="test-section">
+            <h3>🎨 App Features</h3>
+            <div class="test-item">
+                <span>Platform Dropdowns</span>
+                <span class="status" id="dropdowns">Not tested</span>
+            </div>
+            <div class="test-item">
+                <span>Platform Navigation</span>
+                <span class="status" id="navigation">Not tested</span>
+            </div>
+            <div class="test-item">
+                <span>Responsive Design</span>
+                <span class="status" id="responsive">Not tested</span>
+            </div>
+            <div class="test-item">
+                <span>External Resources (Font Awesome)</span>
+                <span class="status" id="external-resources">Checking...</span>
+            </div>
+        </div>
+
+        <div class="test-section">
+            <h3>🔧 Manual Tests</h3>
+            <button class="test-button" onclick="testOffline()">Test Offline Mode</button>
+            <button class="test-button" onclick="testInstallation()">Test Installation</button>
+            <button class="test-button" onclick="testNotifications()">Test Notifications</button>
+            <button class="test-button" onclick="testPlatforms()">Test Platform Features</button>
+            <button class="test-button" onclick="testResponsive()">Test Responsive Design</button>
+        </div>
+
+        <div class="test-section">
+            <h3>📊 Test Results</h3>
+            <div class="log" id="test-log">
+                <div>🧪 PWA Test Suite loaded successfully</div>
+                <div>⏳ Running automated tests...</div>
+            </div>
+        </div>
+
+        <div class="test-section">
+            <h3>🔗 Quick Links</h3>
+            <button class="test-button" onclick="window.open('/', '_blank')">Open Main App</button>
+            <button class="test-button" onclick="window.open('/icon-generator.html', '_blank')">Icon Generator</button>
+            <button class="test-button" onclick="runLighthouseTest()">Run Lighthouse Test</button>
+        </div>
+    </div>
+
+    <script>
+        let testLog = [];
+
+        function log(message) {
+            testLog.push(`${new Date().toLocaleTimeString()}: ${message}`);
+            const logElement = document.getElementById('test-log');
+            logElement.innerHTML = testLog.map(msg => `<div>${msg}</div>`).join('');
+            logElement.scrollTop = logElement.scrollHeight;
+        }
+
+        function updateStatus(id, status, text = null) {
+            const element = document.getElementById(id);
+            element.className = `status ${status}`;
+            if (text) element.textContent = text;
+        }
+
+        // Test Service Worker Support
+        function testServiceWorkerSupport() {
+            if ('serviceWorker' in navigator) {
+                updateStatus('sw-support', 'pass', 'Supported');
+                log('✅ Service Worker support detected');
+                return true;
+            } else {
+                updateStatus('sw-support', 'fail', 'Not Supported');
+                log('❌ Service Worker not supported');
+                return false;
+            }
+        }
+
+        // Test Service Worker Registration
+        async function testServiceWorkerRegistration() {
+            try {
+                const registration = await navigator.serviceWorker.getRegistration();
+                if (registration) {
+                    updateStatus('sw-registration', 'pass', 'Registered');
+                    log('✅ Service Worker is registered');
+                    return true;
+                } else {
+                    updateStatus('sw-registration', 'warning', 'Not Registered');
+                    log('⚠️ Service Worker not registered yet');
+                    return false;
+                }
+            } catch (error) {
+                updateStatus('sw-registration', 'fail', 'Error');
+                log(`❌ Service Worker registration error: ${error.message}`);
+                return false;
+            }
+        }
+
+        // Test Manifest
+        async function testManifest() {
+            try {
+                const response = await fetch('/manifest.json');
+                if (response.ok) {
+                    const manifest = await response.json();
+                    updateStatus('manifest-check', 'pass', 'Found');
+                    log(`✅ Manifest found: ${manifest.name}`);
+                    return true;
+                } else {
+                    updateStatus('manifest-check', 'fail', 'Not Found');
+                    log('❌ Manifest file not found');
+                    return false;
+                }
+            } catch (error) {
+                updateStatus('manifest-check', 'fail', 'Error');
+                log(`❌ Manifest error: ${error.message}`);
+                return false;
+            }
+        }
+
+        // Test HTTPS/Localhost
+        function testHTTPS() {
+            const isSecure = location.protocol === 'https:' || location.hostname === 'localhost' || location.hostname === '127.0.0.1';
+            if (isSecure) {
+                updateStatus('https-check', 'pass', 'Secure');
+                log('✅ Running on secure context');
+                return true;
+            } else {
+                updateStatus('https-check', 'warning', 'Insecure');
+                log('⚠️ Not running on secure context - PWA features may be limited');
+                return false;
+            }
+        }
+
+        // Test Installability
+        function testInstallability() {
+            // This is a simplified check - actual installability depends on many factors
+            if ('serviceWorker' in navigator && 'getInstalledRelatedApps' in navigator) {
+                updateStatus('installable', 'info', 'Likely');
+                log('ℹ️ App appears to meet installability criteria');
+            } else {
+                updateStatus('installable', 'warning', 'Unknown');
+                log('⚠️ Installability cannot be determined');
+            }
+        }
+
+        // Test Background Sync
+        function testBackgroundSync() {
+            if ('serviceWorker' in navigator && 'sync' in window.ServiceWorkerRegistration.prototype) {
+                updateStatus('bg-sync', 'pass', 'Supported');
+                log('✅ Background Sync supported');
+                return true;
+            } else {
+                updateStatus('bg-sync', 'fail', 'Not Supported');
+                log('❌ Background Sync not supported');
+                return false;
+            }
+        }
+
+        // Test Push Notifications
+        function testPushNotifications() {
+            if ('Notification' in window && 'serviceWorker' in navigator && 'PushManager' in window) {
+                updateStatus('push-support', 'pass', 'Supported');
+                log('✅ Push Notifications supported');
+                return true;
+            } else {
+                updateStatus('push-support', 'fail', 'Not Supported');
+                log('❌ Push Notifications not supported');
+                return false;
+            }
+        }
+
+        // Test External Resources
+        function testExternalResources() {
+            const link = document.createElement('link');
+            link.rel = 'stylesheet';
+            link.href = 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css';
+            link.onload = () => {
+                updateStatus('external-resources', 'pass', 'Loaded');
+                log('✅ External resources (Font Awesome) loaded successfully');
+            };
+            link.onerror = () => {
+                updateStatus('external-resources', 'fail', 'Failed');
+                log('❌ External resources failed to load');
+            };
+            document.head.appendChild(link);
+        }
+
+        // Manual Tests
+        function testOffline() {
+            log('🔧 Manual Test: Please disconnect your internet and try to reload the page');
+            updateStatus('offline-support', 'info', 'Manual Test');
+        }
+
+        function testInstallation() {
+            log('🔧 Manual Test: Look for install prompt or browser install option');
+            updateStatus('installable', 'info', 'Manual Test');
+        }
+
+        function testNotifications() {
+            if ('Notification' in window) {
+                Notification.requestPermission().then(permission => {
+                    if (permission === 'granted') {
+                        new Notification('Spark-X Platforms', {
+                            body: 'PWA notifications are working!',
+                            icon: '/icons/icon-192x192.png'
+                        });
+                        log('✅ Test notification sent');
+                    } else {
+                        log('⚠️ Notification permission denied');
+                    }
+                });
+            } else {
+                log('❌ Notifications not supported');
+            }
+        }
+
+        function testPlatforms() {
+            log('🔧 Manual Test: Try clicking platform cards and dropdown buttons');
+            updateStatus('dropdowns', 'info', 'Manual Test');
+            updateStatus('navigation', 'info', 'Manual Test');
+        }
+
+        function testResponsive() {
+            log('🔧 Manual Test: Resize browser window or use device emulation');
+            updateStatus('responsive', 'info', 'Manual Test');
+        }
+
+        function runLighthouseTest() {
+            log('🔧 Manual Test: Open DevTools > Lighthouse tab and run audit');
+            window.open('https://developers.google.com/web/tools/lighthouse', '_blank');
+        }
+
+        // Run all automated tests
+        async function runTests() {
+            log('🚀 Starting automated tests...');
+            
+            testServiceWorkerSupport();
+            await testServiceWorkerRegistration();
+            await testManifest();
+            testHTTPS();
+            testInstallability();
+            testBackgroundSync();
+            testPushNotifications();
+            testExternalResources();
+            
+            log('✅ Automated tests completed');
+            log('🔧 Run manual tests using the buttons above');
+        }
+
+        // Start tests when page loads
+        window.addEventListener('load', () => {
+            setTimeout(runTests, 1000);
+        });
+    </script>
+</body>
+</html>

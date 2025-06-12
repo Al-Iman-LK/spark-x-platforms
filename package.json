@@ -1,0 +1,63 @@
+{
+  "name": "spark-x-platforms",
+  "version": "1.0.0",
+  "description": "A comprehensive progressive web app for online shopping, jobs, donations, and social services",
+  "main": "index.html",
+  "scripts": {
+    "start": "python -m http.server 8000 || http-server -p 8000 || live-server --port=8000",
+    "dev": "live-server --port=8000 --open=/",
+    "build": "echo 'Build complete - PWA is ready for deployment'",
+    "test": "echo 'No tests specified yet'",
+    "serve": "http-server -p 8000 -c-1",
+    "deploy": "echo 'Deploy to your hosting platform'",
+    "generate-icons": "node generate-icons.js",
+    "lighthouse": "lighthouse http://localhost:8000 --output=html --output-path=lighthouse-report.html"
+  },
+  "keywords": [
+    "pwa",
+    "progressive-web-app",
+    "ecommerce",
+    "jobs",
+    "donations",
+    "social-services",
+    "spark-x",
+    "cordova",
+    "mobile-app"
+  ],
+  "author": "Spark-X Platforms Team",
+  "license": "MIT",
+  "devDependencies": {
+    "http-server": "^14.1.1",
+    "live-server": "^1.2.2",
+    "lighthouse": "^10.4.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/your-username/spark-x-platforms.git"
+  },
+  "bugs": {
+    "url": "https://github.com/your-username/spark-x-platforms/issues"
+  },
+  "homepage": "https://your-username.github.io/spark-x-platforms",
+  "pwa": {
+    "name": "Spark-X Platforms",
+    "short_name": "Spark-X",
+    "theme_color": "#2563eb",
+    "background_color": "#f9fafb",
+    "display": "standalone",
+    "orientation": "portrait"
+  },
+  "cordova": {
+    "platforms": [
+      "android",
+      "ios"
+    ],
+    "plugins": [
+      "cordova-plugin-device",
+      "cordova-plugin-network-information",
+      "cordova-plugin-statusbar",
+      "cordova-plugin-splashscreen",
+      "cordova-plugin-whitelist"
+    ]
+  }
+}

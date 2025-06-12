@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Icon Generator - Spark-X Platforms</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 20px;
+            background: #f0f0f0;
+        }
+        .icon-preview {
+            display: inline-block;
+            margin: 10px;
+            padding: 20px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        canvas {
+            border: 1px solid #ddd;
+            margin: 5px;
+        }
+        .download-section {
+            margin: 30px 0;
+        }
+        .download-btn {
+            background: #2563eb;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+            font-size: 14px;
+        }
+        .download-btn:hover {
+            background: #1d4ed8;
+        }
+    </style>
+</head>
+<body>
+    <h1>🚀 Spark-X Platforms Icon Generator</h1>
+    <p>Generate PWA icons for Spark-X Platforms</p>
+    
+    <div class="download-section">
+        <h3>Download Generated Icons:</h3>
+        <button class="download-btn" onclick="downloadIcon(72)">72x72</button>
+        <button class="download-btn" onclick="downloadIcon(96)">96x96</button>
+        <button class="download-btn" onclick="downloadIcon(128)">128x128</button>
+        <button class="download-btn" onclick="downloadIcon(144)">144x144</button>
+        <button class="download-btn" onclick="downloadIcon(152)">152x152</button>
+        <button class="download-btn" onclick="downloadIcon(192)">192x192</button>
+        <button class="download-btn" onclick="downloadIcon(384)">384x384</button>
+        <button class="download-btn" onclick="downloadIcon(512)">512x512</button>
+        <button class="download-btn" onclick="downloadAllIcons()">Download All</button>
+    </div>
+    
+    <div id="iconPreviews"></div>
+    
+    <script>
+        // Icon sizes to generate
+        const iconSizes = [72, 96, 128, 144, 152, 192, 384, 512];
+        
+        function createSparkXIcon(size) {
+            const canvas = document.createElement('canvas');
+            canvas.width = size;
+            canvas.height = size;
+            const ctx = canvas.getContext('2d');
+            
+            // Background gradient
+            const gradient = ctx.createLinearGradient(0, 0, size, size);
+            gradient.addColorStop(0, '#2563eb');    // Primary blue
+            gradient.addColorStop(0.5, '#8b5cf6');  // Purple
+            gradient.addColorStop(1, '#f59e0b');    // Orange
+            
+            ctx.fillStyle = gradient;
+            ctx.fillRect(0, 0, size, size);
+            
+            // Add rounded corners effect
+            ctx.globalCompositeOperation = 'destination-in';
+            ctx.beginPath();
+            ctx.roundRect(0, 0, size, size, size * 0.15);
+            ctx.fill();
+            ctx.globalCompositeOperation = 'source-over';
+            
+            // Lightning bolt (Spark)
+            ctx.fillStyle = '#ffffff';
+            ctx.strokeStyle = '#ffffff';
+            ctx.lineWidth = size * 0.02;
+            
+            const centerX = size / 2;
+            const centerY = size / 2;
+            const boltSize = size * 0.4;
+            
+            // Create lightning bolt path
+            ctx.beginPath();
+            ctx.moveTo(centerX - boltSize * 0.2, centerY - boltSize * 0.4);
+            ctx.lineTo(centerX + boltSize * 0.1, centerY - boltSize * 0.1);
+            ctx.lineTo(centerX - boltSize * 0.1, centerY - boltSize * 0.1);
+            ctx.lineTo(centerX + boltSize * 0.2, centerY + boltSize * 0.4);
+            ctx.lineTo(centerX - boltSize * 0.1, centerY + boltSize * 0.1);
+            ctx.lineTo(centerX + boltSize * 0.1, centerY + boltSize * 0.1);
+            ctx.closePath();
+            ctx.fill();
+            
+            // Add 'X' overlay
+            ctx.strokeStyle = '#f59e0b';
+            ctx.lineWidth = size * 0.08;
+            ctx.lineCap = 'round';
+            
+            const xSize = size * 0.15;
+            const xOffset = size * 0.25;
+            
+            // X mark
+            ctx.beginPath();
+            ctx.moveTo(centerX + xOffset - xSize, centerY + xOffset - xSize);
+            ctx.lineTo(centerX + xOffset + xSize, centerY + xOffset + xSize);
+            ctx.moveTo(centerX + xOffset + xSize, centerY + xOffset - xSize);
+            ctx.lineTo(centerX + xOffset - xSize, centerY + xOffset + xSize);
+            ctx.stroke();
+            
+            return canvas;
+        }
+        
+        function generatePreviews() {
+            const container = document.getElementById('iconPreviews');
+            container.innerHTML = '';
+            
+            iconSizes.forEach(size => {
+                const preview = document.createElement('div');
+                preview.className = 'icon-preview';
+                
+                const canvas = createSparkXIcon(size);
+                canvas.style.width = '100px';
+                canvas.style.height = '100px';
+                
+                const label = document.createElement('div');
+                label.textContent = `${size}x${size}`;
+                label.style.fontSize = '12px';
+                label.style.marginTop = '5px';
+                label.style.color = '#666';
+                
+                preview.appendChild(canvas);
+                preview.appendChild(label);
+                container.appendChild(preview);
+            });
+        }
+        
+        function downloadIcon(size) {
+            const canvas = createSparkXIcon(size);
+            const link = document.createElement('a');
+            link.download = `icon-${size}x${size}.png`;
+            link.href = canvas.toDataURL('image/png');
+            link.click();
+        }
+        
+        function downloadAllIcons() {
+            iconSizes.forEach(size => {
+                setTimeout(() => downloadIcon(size), size * 10); // Stagger downloads
+            });
+        }
+        
+        // Add roundRect polyfill for older browsers
+        if (!CanvasRenderingContext2D.prototype.roundRect) {
+            CanvasRenderingContext2D.prototype.roundRect = function(x, y, width, height, radius) {
+                this.beginPath();
+                this.moveTo(x + radius, y);
+                this.lineTo(x + width - radius, y);
+                this.quadraticCurveTo(x + width, y, x + width, y + radius);
+                this.lineTo(x + width, y + height - radius);
+                this.quadraticCurveTo(x + width, y + height, x + width - radius, y + height);
+                this.lineTo(x + radius, y + height);
+                this.quadraticCurveTo(x, y + height, x, y + height - radius);
+                this.lineTo(x, y + radius);
+                this.quadraticCurveTo(x, y, x + radius, y);
+                this.closePath();
+            };
+        }
+        
+        // Generate previews on load
+        generatePreviews();
+    </script>
+</body>
+</html>

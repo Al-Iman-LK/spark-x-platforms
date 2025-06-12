@@ -1,0 +1,22 @@
+<!-- Simple SVG template for Spark-X icon -->
+<svg width="192" height="192" viewBox="0 0 192 192" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="sparkGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#2563eb;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#8b5cf6;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#f59e0b;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Background with rounded corners -->
+  <rect width="192" height="192" rx="24" ry="24" fill="url(#sparkGradient)" />
+  
+  <!-- Lightning bolt (Spark) -->
+  <path d="M76 57 L116 86 L96 86 L134 135 L96 105 L116 105 Z" fill="white" stroke="white" stroke-width="2"/>
+  
+  <!-- X mark -->
+  <g stroke="#f59e0b" stroke-width="8" stroke-linecap="round">
+    <line x1="130" y1="130" x2="150" y2="150" />
+    <line x1="150" y1="130" x2="130" y2="150" />
+  </g>
+</svg>

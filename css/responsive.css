@@ -1,0 +1,431 @@
+/* Responsive Design */
+
+/* Large screens (1200px and up) */
+@media (min-width: 1200px) {
+    .container {
+        max-width: 1400px;
+    }
+    
+    .hero-title {
+        font-size: 4rem;
+    }
+    
+    .platforms-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+/* Medium screens (768px to 1199px) */
+@media (max-width: 1199px) {
+    .hero-title {
+        font-size: 3rem;
+    }
+    
+    .platforms-grid {
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    }
+}
+
+/* Tablet screens (768px to 991px) */
+@media (max-width: 991px) {
+    .container {
+        padding: 0 var(--spacing-lg);
+    }
+    
+    .hero-title {
+        font-size: 2.5rem;
+    }
+    
+    .hero-subtitle {
+        font-size: 1.1rem;
+    }
+    
+    .hero-cta {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .cta-button {
+        width: 100%;
+        max-width: 300px;
+    }
+    
+    .section-title {
+        font-size: 2rem;
+    }
+    
+    .platform-features {
+        justify-content: center;
+    }
+    
+    .search-filters {
+        flex-direction: column;
+    }
+    
+    .search-input,
+    .filter-select,
+    .search-btn {
+        width: 100%;
+    }
+    
+    .footer-content {
+        grid-template-columns: repeat(2, 1fr);
+        gap: var(--spacing-lg);
+    }
+}
+
+/* Mobile screens (up to 767px) */
+@media (max-width: 767px) {
+    .header .container {
+        padding: var(--spacing-sm) var(--spacing-md);
+    }
+    
+    .menu-toggle {
+        display: block;
+    }
+    
+    .nav-list {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background: var(--white);
+        box-shadow: var(--shadow-lg);
+        flex-direction: column;
+        padding: var(--spacing-md);
+        transform: translateY(-100%);
+        opacity: 0;
+        visibility: hidden;
+        transition: all var(--transition-normal);
+    }
+    
+    .nav-list.active {
+        transform: translateY(0);
+        opacity: 1;
+        visibility: visible;
+    }
+    
+    .nav-link {
+        padding: var(--spacing-md);
+        border-bottom: 1px solid var(--gray-100);
+        width: 100%;
+        text-align: center;
+    }
+    
+    .nav-link:last-child {
+        border-bottom: none;
+    }
+    
+    .main-content {
+        margin-top: 70px;
+    }
+    
+    .hero {
+        min-height: 80vh;
+        padding: var(--spacing-xl) 0;
+    }
+    
+    .hero-content {
+        padding: var(--spacing-lg);
+    }
+    
+    .hero-title {
+        font-size: 2rem;
+        margin-bottom: var(--spacing-md);
+    }
+    
+    .hero-subtitle {
+        font-size: 1rem;
+        margin-bottom: var(--spacing-xl);
+    }
+    
+    .brand-text {
+        font-size: 1.2rem;
+    }
+    
+    .platform-text {
+        display: none;
+    }
+    
+    .platforms-section {
+        padding: var(--spacing-xl) 0;
+    }
+    
+    .section-title {
+        font-size: 1.8rem;
+        margin-bottom: var(--spacing-xl);
+    }
+    
+    .platforms-grid {
+        grid-template-columns: 1fr;
+        gap: var(--spacing-lg);
+    }
+    
+    .platform-card {
+        padding: var(--spacing-lg);
+    }
+    
+    .platform-header {
+        flex-wrap: wrap;
+    }
+    
+    .platform-icon {
+        width: 50px;
+        height: 50px;
+        font-size: 1.2rem;
+    }
+    
+    .platform-title {
+        font-size: 1.3rem;
+    }
+    
+    .platform-features {
+        flex-direction: column;
+        gap: var(--spacing-sm);
+    }
+    
+    .feature-item {
+        justify-content: center;
+    }
+    
+    .platform-page-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: var(--spacing-md);
+    }
+    
+    .platform-page-header h2 {
+        font-size: 1.5rem;
+    }
+    
+    .categories-grid,
+    .donation-grid,
+    .services-grid {
+        grid-template-columns: 1fr;
+        gap: var(--spacing-md);
+    }
+    
+    .category-card,
+    .donation-card,
+    .service-card {
+        padding: var(--spacing-lg);
+    }
+    
+    .footer-content {
+        grid-template-columns: 1fr;
+        text-align: center;
+    }
+    
+    .footer-logo {
+        justify-content: center;
+    }
+    
+    .social-links {
+        justify-content: center;
+    }
+}
+
+/* Small mobile screens (up to 480px) */
+@media (max-width: 480px) {
+    .container {
+        padding: 0 var(--spacing-md);
+    }
+    
+    .hero-content {
+        padding: var(--spacing-md);
+    }
+    
+    .hero-title {
+        font-size: 1.8rem;
+    }
+    
+    .cta-button {
+        padding: var(--spacing-sm) var(--spacing-lg);
+        font-size: 1rem;
+    }
+    
+    .section-title {
+        font-size: 1.5rem;
+    }
+    
+    .platform-card {
+        padding: var(--spacing-md);
+    }
+    
+    .platform-icon {
+        width: 45px;
+        height: 45px;
+        font-size: 1.1rem;
+        margin-right: var(--spacing-sm);
+    }
+    
+    .platform-title {
+        font-size: 1.2rem;
+    }
+    
+    .platform-page {
+        padding: var(--spacing-lg) 0;
+    }
+    
+    .ecommerce-content,
+    .jobs-content,
+    .donors-content,
+    .wings-content {
+        padding: 0 var(--spacing-sm);
+    }
+    
+    .category-card,
+    .donation-card,
+    .service-card {
+        padding: var(--spacing-md);
+    }
+    
+    .back-btn {
+        padding: var(--spacing-sm) var(--spacing-md);
+        font-size: 0.9rem;
+    }
+    
+    .footer {
+        padding: var(--spacing-lg) 0;
+    }
+    
+    .footer-content {
+        gap: var(--spacing-md);
+    }
+}
+
+/* Touch device optimizations */
+@media (hover: none) and (pointer: coarse) {
+    .platform-card:hover,
+    .category-card:hover,
+    .donation-card:hover,
+    .service-card:hover {
+        transform: none;
+    }
+    
+    .cta-button:hover,
+    .platform-action-btn:hover,
+    .back-btn:hover {
+        transform: none;
+    }
+    
+    .nav-link:hover {
+        background: transparent;
+    }
+    
+    /* Increase touch targets */
+    .dropdown-btn {
+        padding: var(--spacing-md);
+        min-width: 44px;
+        min-height: 44px;
+    }
+    
+    .menu-toggle {
+        padding: var(--spacing-sm);
+        min-width: 44px;
+        min-height: 44px;
+    }
+    
+    .nav-link {
+        min-height: 44px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+}
+
+/* High DPI displays */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+    .spark-icon {
+        filter: drop-shadow(0 0 2px var(--accent-orange));
+    }
+    
+    .hero-background::before {
+        background-size: 25px 25px;
+    }
+}
+
+/* Reduced motion preferences */
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+    
+    .spark-icon {
+        animation: none;
+    }
+    
+    .hero-background::before {
+        animation: none;
+    }
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+    :root {
+        --white: #1a1a1a;
+        --gray-50: #111111;
+        --gray-100: #1f1f1f;
+        --gray-200: #2a2a2a;
+        --gray-300: #3a3a3a;
+        --gray-400: #5a5a5a;
+        --gray-500: #7a7a7a;
+        --gray-600: #9a9a9a;
+        --gray-700: #bababa;
+        --gray-800: #dadada;
+        --gray-900: #ffffff;
+    }
+    
+    .header {
+        background: rgba(26, 26, 26, 0.95);
+    }
+    
+    .hero-overlay {
+        background: rgba(0, 0, 0, 0.4);
+    }
+    
+    .platform-card,
+    .category-card,
+    .donation-card,
+    .service-card {
+        background: linear-gradient(145deg, var(--gray-100) 0%, var(--gray-200) 100%);
+        border-color: var(--gray-300);
+    }
+}
+
+/* Print styles */
+@media print {
+    .header,
+    .footer,
+    .hero,
+    .platform-pages {
+        display: none !important;
+    }
+    
+    .platforms-section {
+        break-inside: avoid;
+    }
+    
+    .platform-card {
+        break-inside: avoid;
+        box-shadow: none;
+        border: 1px solid var(--gray-300);
+    }
+    
+    body {
+        font-size: 12pt;
+        line-height: 1.4;
+    }
+    
+    .section-title {
+        font-size: 18pt;
+    }
+    
+    .platform-title {
+        font-size: 14pt;
+    }
+}

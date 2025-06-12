@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#2563eb">
+    <meta name="description" content="Spark-X Platforms - Your all-in-one platform for online shopping, jobs, donations, and social services">
+    
+    <!-- PWA Meta Tags -->
+    <link rel="manifest" href="manifest.json">
+    <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192x192.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="icons/icon-512x512.png">
+    <link rel="apple-touch-icon" href="icons/icon-192x192.png">
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/responsive.css">
+    
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <title>Spark-X Platforms</title>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="nav-brand">
+                <div class="logo">
+                    <i class="fas fa-bolt spark-icon"></i>
+                    <span class="brand-text">Spark-<span class="x-highlight">X</span></span>
+                    <span class="platform-text">Platforms</span>
+                </div>
+            </div>
+            <nav class="nav-menu">
+                <button class="menu-toggle" id="menuToggle">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <ul class="nav-list" id="navList">
+                    <li><a href="#home" class="nav-link active">Home</a></li>
+                    <li><a href="#about" class="nav-link">About</a></li>
+                    <li><a href="#contact" class="nav-link">Contact</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Hero Section -->
+        <section class="hero" id="home">
+            <div class="hero-background">
+                <div class="hero-overlay"></div>
+            </div>
+            <div class="container">
+                <div class="hero-content">
+                    <h1 class="hero-title">
+                        Welcome to <span class="brand-highlight">Spark-X</span> Platforms
+                    </h1>
+                    <p class="hero-subtitle">
+                        Your all-in-one platform for online shopping, career opportunities, 
+                        charitable giving, and social services
+                    </p>
+                    <div class="hero-cta">
+                        <button class="cta-button primary">Get Started</button>
+                        <button class="cta-button secondary">Learn More</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Platforms Section -->
+        <section class="platforms-section" id="platforms">
+            <div class="container">
+                <h2 class="section-title">Choose Your Platform</h2>
+                <div class="platforms-grid">
+                    
+                    <!-- Spark Online -->
+                    <div class="platform-card" data-platform="online">
+                        <div class="platform-header">
+                            <div class="platform-icon online">
+                                <i class="fas fa-shopping-cart"></i>
+                            </div>
+                            <h3 class="platform-title">Spark-Online</h3>
+                            <button class="dropdown-btn" data-target="online-content">
+                                <i class="fas fa-chevron-down"></i>
+                            </button>
+                        </div>
+                        <div class="platform-content" id="online-content">
+                            <p class="platform-description">
+                                Your premier e-commerce destination for quality products and seamless shopping experience.
+                            </p>
+                            <div class="platform-features">
+                                <div class="feature-item">
+                                    <i class="fas fa-truck"></i>
+                                    <span>Fast Delivery</span>
+                                </div>
+                                <div class="feature-item">
+                                    <i class="fas fa-shield-alt"></i>
+                                    <span>Secure Payment</span>
+                                </div>
+                                <div class="feature-item">
+                                    <i class="fas fa-star"></i>
+                                    <span>Quality Products</span>
+                                </div>
+                            </div>
+                            <button class="platform-action-btn" onclick="openPlatform('online')">
+                                Start Shopping
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Spark Jobs -->
+                    <div class="platform-card" data-platform="jobs">
+                        <div class="platform-header">
+                            <div class="platform-icon jobs">
+                                <i class="fas fa-briefcase"></i>
+                            </div>
+                            <h3 class="platform-title">Spark-Jobs</h3>
+                            <button class="dropdown-btn" data-target="jobs-content">
+                                <i class="fas fa-chevron-down"></i>
+                            </button>
+                        </div>
+                        <div class="platform-content" id="jobs-content">
+                            <p class="platform-description">
+                                Connect with career opportunities and find the perfect job match for your skills.
+                            </p>
+                            <div class="platform-features">
+                                <div class="feature-item">
+                                    <i class="fas fa-search"></i>
+                                    <span>Job Search</span>
+                                </div>
+                                <div class="feature-item">
+                                    <i class="fas fa-user-tie"></i>
+                                    <span>Career Growth</span>
+                                </div>
+                                <div class="feature-item">
+                                    <i class="fas fa-handshake"></i>
+                                    <span>Direct Hiring</span>
+                                </div>
+                            </div>
+                            <button class="platform-action-btn" onclick="openPlatform('jobs')">
+                                Find Jobs
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Spark Donors -->
+                    <div class="platform-card" data-platform="donors">
+                        <div class="platform-header">
+                            <div class="platform-icon donors">
+                                <i class="fas fa-heart"></i>
+                            </div>
+                            <h3 class="platform-title">Spark-Donors</h3>
+                            <button class="dropdown-btn" data-target="donors-content">
+                                <i class="fas fa-chevron-down"></i>
+                            </button>
+                        </div>
+                        <div class="platform-content" id="donors-content">
+                            <p class="platform-description">
+                                Make a difference by supporting causes and helping those in need through donations.
+                            </p>
+                            <div class="platform-features">
+                                <div class="feature-item">
+                                    <i class="fas fa-hands-helping"></i>
+                                    <span>Help Others</span>
+                                </div>
+                                <div class="feature-item">
+                                    <i class="fas fa-transparency"></i>
+                                    <span>Transparent</span>
+                                </div>
+                                <div class="feature-item">
+                                    <i class="fas fa-globe"></i>
+                                    <span>Global Impact</span>
+                                </div>
+                            </div>
+                            <button class="platform-action-btn" onclick="openPlatform('donors')">
+                                Start Donating
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Spark Wings -->
+                    <div class="platform-card" data-platform="wings">
+                        <div class="platform-header">
+                            <div class="platform-icon wings">
+                                <i class="fas fa-users"></i>
+                            </div>
+                            <h3 class="platform-title">Spark-Wings</h3>
+                            <button class="dropdown-btn" data-target="wings-content">
+                                <i class="fas fa-chevron-down"></i>
+                            </button>
+                        </div>
+                        <div class="platform-content" id="wings-content">
+                            <p class="platform-description">
+                                Join our social service platform to volunteer, connect, and make a positive community impact.
+                            </p>
+                            <div class="platform-features">
+                                <div class="feature-item">
+                                    <i class="fas fa-volunteer"></i>
+                                    <span>Volunteer</span>
+                                </div>
+                                <div class="feature-item">
+                                    <i class="fas fa-community"></i>
+                                    <span>Community</span>
+                                </div>
+                                <div class="feature-item">
+                                    <i class="fas fa-impact"></i>
+                                    <span>Impact</span>
+                                </div>
+                            </div>
+                            <button class="platform-action-btn" onclick="openPlatform('wings')">
+                                Join Community
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Platform Pages Container -->
+        <div class="platform-pages" id="platformPages">
+            <!-- Online Platform -->
+            <div class="platform-page" id="online-page">
+                <div class="platform-page-header">
+                    <button class="back-btn" onclick="closePlatform()">
+                        <i class="fas fa-arrow-left"></i> Back to Platforms
+                    </button>
+                    <h2>Spark-Online E-Commerce</h2>
+                </div>
+                <div class="ecommerce-content">
+                    <div class="product-categories">
+                        <h3>Product Categories</h3>
+                        <div class="categories-grid">
+                            <div class="category-card">
+                                <i class="fas fa-laptop"></i>
+                                <span>Electronics</span>
+                            </div>
+                            <div class="category-card">
+                                <i class="fas fa-tshirt"></i>
+                                <span>Fashion</span>
+                            </div>
+                            <div class="category-card">
+                                <i class="fas fa-home"></i>
+                                <span>Home & Garden</span>
+                            </div>
+                            <div class="category-card">
+                                <i class="fas fa-gamepad"></i>
+                                <span>Sports & Gaming</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Jobs Platform -->
+            <div class="platform-page" id="jobs-page">
+                <div class="platform-page-header">
+                    <button class="back-btn" onclick="closePlatform()">
+                        <i class="fas fa-arrow-left"></i> Back to Platforms
+                    </button>
+                    <h2>Spark-Jobs Career Hub</h2>
+                </div>
+                <div class="jobs-content">
+                    <div class="job-search-section">
+                        <h3>Find Your Dream Job</h3>
+                        <div class="search-filters">
+                            <input type="text" placeholder="Job title, skills, or company" class="search-input">
+                            <select class="filter-select">
+                                <option>All Categories</option>
+                                <option>Technology</option>
+                                <option>Healthcare</option>
+                                <option>Finance</option>
+                                <option>Education</option>
+                            </select>
+                            <button class="search-btn">Search Jobs</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Donors Platform -->
+            <div class="platform-page" id="donors-page">
+                <div class="platform-page-header">
+                    <button class="back-btn" onclick="closePlatform()">
+                        <i class="fas fa-arrow-left"></i> Back to Platforms
+                    </button>
+                    <h2>Spark-Donors Charity Hub</h2>
+                </div>
+                <div class="donors-content">
+                    <div class="donation-categories">
+                        <h3>Ways to Help</h3>
+                        <div class="donation-grid">
+                            <div class="donation-card">
+                                <i class="fas fa-graduation-cap"></i>
+                                <h4>Education</h4>
+                                <p>Support educational initiatives</p>
+                            </div>
+                            <div class="donation-card">
+                                <i class="fas fa-medkit"></i>
+                                <h4>Healthcare</h4>
+                                <p>Fund medical treatments</p>
+                            </div>
+                            <div class="donation-card">
+                                <i class="fas fa-seedling"></i>
+                                <h4>Environment</h4>
+                                <p>Protect our planet</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Wings Platform -->
+            <div class="platform-page" id="wings-page">
+                <div class="platform-page-header">
+                    <button class="back-btn" onclick="closePlatform()">
+                        <i class="fas fa-arrow-left"></i> Back to Platforms
+                    </button>
+                    <h2>Spark-Wings Social Services</h2>
+                </div>
+                <div class="wings-content">
+                    <div class="social-services">
+                        <h3>Community Services</h3>
+                        <div class="services-grid">
+                            <div class="service-card">
+                                <i class="fas fa-hands-helping"></i>
+                                <h4>Volunteer Programs</h4>
+                                <p>Join local volunteer initiatives</p>
+                            </div>
+                            <div class="service-card">
+                                <i class="fas fa-users"></i>
+                                <h4>Community Events</h4>
+                                <p>Participate in social gatherings</p>
+                            </div>
+                            <div class="service-card">
+                                <i class="fas fa-lightbulb"></i>
+                                <h4>Skill Sharing</h4>
+                                <p>Share knowledge and learn</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <div class="footer-logo">
+                        <i class="fas fa-bolt spark-icon"></i>
+                        <span class="brand-text">Spark-<span class="x-highlight">X</span> Platforms</span>
+                    </div>
+                    <p class="footer-description">
+                        Connecting communities through innovation and service.
+                    </p>
+                </div>
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <ul class="footer-links">
+                        <li><a href="#home">Home</a></li>
+                        <li><a href="#platforms">Platforms</a></li>
+                        <li><a href="#about">About</a></li>
+                        <li><a href="#contact">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Follow Us</h4>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-linkedin"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Spark-X Platforms. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script src="js/app.js"></script>
+    <script src="js/sw-register.js"></script>
+</body>
+</html>
