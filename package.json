@@ -30,15 +30,14 @@
     "http-server": "^14.1.1",
     "live-server": "^1.2.2",
     "lighthouse": "^10.4.0"
-  },
-  "repository": {
+  },  "repository": {
     "type": "git",
-    "url": "https://github.com/your-username/spark-x-platforms.git"
+    "url": "https://github.com/Al-Iman-LK/spark-x-platforms.git"
   },
   "bugs": {
-    "url": "https://github.com/your-username/spark-x-platforms/issues"
+    "url": "https://github.com/Al-Iman-LK/spark-x-platforms/issues"
   },
-  "homepage": "https://your-username.github.io/spark-x-platforms",
+  "homepage": "https://Al-Iman-LK.github.io/spark-x-platforms",
   "pwa": {
     "name": "Spark-X Platforms",
     "short_name": "Spark-X",

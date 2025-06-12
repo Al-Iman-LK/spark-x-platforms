@@ -64,7 +64,7 @@ A comprehensive Progressive Web Application (PWA) that combines four powerful pl
 
 1. **Clone or download the project**
    ```bash
-   git clone https://github.com/your-username/spark-x-platforms.git
+   git clone https://github.com/Al-Iman-LK/spark-x-platforms.git
    cd spark-x-platforms
    ```
 
@@ -280,7 +280,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 For support and questions:
 - Create an issue on GitHub
 - Email: support@spark-x-platforms.com
-- Documentation: [Wiki](https://github.com/your-username/spark-x-platforms/wiki)
+- Documentation: [Wiki](https://github.com/Al-Iman-LK/spark-x-platforms/wiki)
 
 ## 🗺️ Roadmap
 
